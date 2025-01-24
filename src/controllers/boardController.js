@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
+import { boardService } from '~/services/boardService'
 
 const createNew = async (req, res, next) => {
   try {
@@ -10,11 +11,10 @@ const createNew = async (req, res, next) => {
     // console.log('req.jwtDecoded', req.jwtDecoded)
 
     // Điều hướng dữ liệu sang tầng service
+    const createBoard = await boardService.createNew(req.body)
 
     // Có kết qua thì trả về phía Client
-    res
-      .status(StatusCodes.CREATED)
-      .json({ message: 'POST from Controller: API create new board' })
+    res.status(StatusCodes.CREATED).json(createBoard)
   } catch (error) {
     next(error)
   }
