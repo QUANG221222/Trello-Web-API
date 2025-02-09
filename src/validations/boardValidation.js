@@ -1,6 +1,7 @@
 import Joi from 'joi'
 import { StatusCodes } from 'http-status-codes'
 import ApiError from '~/utils/ApiError'
+import { BOARD_TYPES } from '~/utils/constants'
 
 const createNew = async (req, res, next) => {
   /**
@@ -20,7 +21,8 @@ const createNew = async (req, res, next) => {
       'string.trim':
         'Title must not have leading or trailing whitespace (nhatquangdev)'
     }),
-    description: Joi.string().required().min(3).max(255).trim().strict()
+    description: Joi.string().required().min(3).max(255).trim().strict(),
+    type: Joi.string().valid(BOARD_TYPES.PUBLIC, BOARD_TYPES.PRIVATE).required()
   })
   try {
     //Method là post. Khi ta post dữ liệu lên thì phải nhận ở phía backend là req.body
